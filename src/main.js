@@ -5,8 +5,10 @@ import router from './router'
 import axios from './util/http'
 import VueAxios from 'vue-axios'
 
+
 Vue.use(VueAxios, axios);
 Vue.config.productionTip = false
+// Vue.prototype.$http = axios
 
 new Vue({
   store,

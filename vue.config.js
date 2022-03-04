@@ -4,7 +4,7 @@ module.exports = {
     port:8080,
     proxy:{
       '/api':{
-        target:'http://mall-pre.springboot.cn', // 正式环境
+        target:'https://www.fastmock.site/mock/04b99ece344cb2126406f4f0e2f25d1c', // 正式环境
         changeOrigin:true,
         pathRewrite:{
           '^/api':''

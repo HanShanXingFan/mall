@@ -6,18 +6,19 @@
 const STORAGE_KEY = 'mall';
 export let utilStorage = {
   setItem(key, value, moduleName) {
-    if (moduleName) { // 判断有没有模块名称
-        let val = this.getItem(moduleName);
+    if (moduleName) { // 判断有没有模块名称 存在模块对象的时候
+        let val = this.getItem(moduleName); // 获取模块对象
         val[key] = value;
         this.setItem(moduleName, val);
     } else {
         let val = this.getStorage();
         val[key] = value;
-        window.sessionStorage.setItem(STORAGE_KEY), JSON.stringify(val);
+        // window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(val);
+        window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(val));
     }
   },
   getItem(key, module_name) { // 获取某一个模块下面的属性 =>比如getItem(userName, user) => user下面的userName   userName相当于形参的key, user相当于形参的module_Name
-    if (module_name) {
+    if (module_name) {  // 存在模块对象,获取模块对象
         let val = this.getItem(module_name); // 返回结果比如: { userName: jack, age: 25 }
         if (val) return val[key];
     }
@@ -32,8 +33,14 @@ export let utilStorage = {
         if(!val[modeleName]) return
         delete val[modeleName][key]
     } else {
-        delete val(key);
+        delete val[key];
     }
-    window.sessionStorage.setItem(STORAGE_KEY), JSON.stringify(val); // 删除后重新存入
+    // window.sessionStorage.setItem(STORAGE_KEY), JSON.stringify(val); // 删除后重新存入
+    window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(val));
   }
+}
+
+export function Digit(val) {
+  if (!val) return '0.00'
+  return `$${val.toFixed(2)}元`
 }

@@ -1,23 +1,30 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
-import env from '../env'
+import router from '../router'
+// import env from '../env'
 
 
+const mock = true; // mockjs mock的开关,接口联调完成之后就不需要mock了,在开发阶段需要打开这个开关为true
+if (mock) {
+    require('../mock/api')
+}
 
 
 let request = axios.create({
-    baseURL: process.env.VUE_APP_URL_ENV,
+    // baseURL: process.env.VUE_APP_URL_ENV,
+    baseURL: 'http://mall-pre.springboot.cn',
     // baseURL: env.baseURL,
     timeout: 8000
 });
-console.log(process.env.NODE_ENV, env.baseURL, process.env.VUE_APP_URL_ENV);
+// console.log(process.env.NODE_ENV, env.baseURL, process.env.VUE_APP_URL_ENV);
 
 request.interceptors.response.use(config => {
     let { data: { status, msg, data: realData } } = config;
     if (status == 0) { // 返回值统一处理
-        return realData // config.data 是axios封装的报文数据, 内部的data才是 接口返回的数据没有什么status和code
+        return config.data // config.data 是axios封装的报文数据, 内部的data才是 接口返回的数据没有什么status和code
     } else if (status == 10) { // 未登录状态拦截
-        window.location.href = '/#/login'; // 这地方在页面可以用this.router进行跳转,但不是在页面,所以用location 但是也可以把路由进入进来,使用router进行跳转
+        // window.location.href = '/#/login'; // 这地方在页面可以用this.router进行跳转,但不是在页面,所以用location 但是也可以把路由进入进来,使用router进行跳转
+        router.push('/login');
     } else { // 报错统一处理
         Message({
             showClose: true,
