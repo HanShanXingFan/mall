@@ -34,7 +34,7 @@
                 <li class="product" v-for="(item) in phoneList" :key="item.id">
                   <a :href="'/#/product/`${item.id}`'" target="_blank">
                     <div class="pro-img">
-                      <img :src="item.mainImage">
+                      <img v-lazy="item.mainImage">
                     </div>
                     <div class="pro-name">{{item.name}}</div>
                     <div class="pro-price">{{filterAccount(item.price)}}</div>
@@ -54,7 +54,7 @@
                 <li class="product" v-for="(item, index) in 6" :key="index">
                   <a href="javascript:;" target="_blank">
                     <div class="pro-img">
-                      <img :src="televisionArray[index]" alt="">
+                      <img v-lazy="televisionArray[index]" alt="">
                     </div>
                     <div class="pro-name">小米电视</div>
                     <div class="pro-price">3699元</div>

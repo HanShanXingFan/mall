@@ -70,6 +70,7 @@
         </swiper>
         <!-- 轮播 End -->
       </div>
+      <!-- 广告位 Start -->
       <div class="ads-box">
         <router-link
           class="ads-container"
@@ -77,12 +78,13 @@
           v-for="item in adsList"
           :key="item.id"
         >
-          <img :src="item.img" alt="" />
+          <img v-lazy="item.img" alt="" />
         </router-link>
       </div>
+      <!-- 广告位 End -->
       <div class="banner">
         <router-link class="banner-container" to="/product/30">
-          <img src="/imgs/banner-1.png" alt="" />
+          <img v-lazy="'/imgs/banner-1.png'" alt="" />
         </router-link>
       </div>
       <!-- 产品列表 Start -->
@@ -91,7 +93,7 @@
         <div class="wrapper">
           <div class="banner-left">
             <a href="javascript:;">
-              <img src="/imgs/mix-alpha.jpg" alt="" />
+              <img v-lazy="'/imgs/mix-alpha.jpg'" alt="" />
             </a>
           </div>
           <div class="list-box">
@@ -103,7 +105,7 @@
                   >{{ item.status === 1 ? "新品" : "上市" }}</span
                 >
                 <div class="item-img">
-                  <img :src="item.mainImage" alt="" />
+                  <img v-lazy="item.mainImage" alt="" />
                 </div>
                 <div class="item-info">
                   <h2>{{ item.name }}</h2>
@@ -123,10 +125,12 @@
     <serivice-bar></serivice-bar>
     <modal
       title="提示"
-      sureText="查看购物车"
+      sureText="添加商品"
       btnType="1"
       modalType="middle"
-      :showModal="showModal"
+      :showModal.sync="showModal"
+      @submit="$router.push('/cart');"
+      @cancel="showModal = false"
     >
       <template #body>
         <p>商品添加成功!</p>
@@ -298,6 +302,8 @@ export default {
         });
     },
     addCart(productId) {
+      this.showModal = true;
+      return;
       // 添加购物车
       this.axios
         .post("carts", {
@@ -306,7 +312,8 @@ export default {
         })
         .then((res) => {})
         .catch((err) => {
-          this.showModal = true;
+          console.log("err: ", err);
+          // this.showModal = true;
         });
     },
     changeArray(ary, n) {
@@ -339,6 +346,12 @@ export default {
     filterMoney(val) {
       return Digit(val);
     },
+    receive() {
+
+    },
+    cancel() {
+
+    }
   },
   mounted() {
     this.$nextTick(() => {
@@ -509,7 +522,7 @@ export default {
             }
             .item-img {
               img {
-                height: 195px;
+                height: 175px;
                 width: 66%;
               }
             }

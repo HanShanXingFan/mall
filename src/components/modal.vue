@@ -1,33 +1,47 @@
 <template>
-<transition name="slide">
-  <div class="modal" v-show="showModal">
-    <div class="mask"></div>
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <span>标题</span>
-        <a href="javascript:;" class="icon-close"></a>
-      </div>
-      <div class="modal-body">
-        <slot name="body"></slot>
-      </div>
-      <div class="modal-footer">
-        <div class="btn-group">
-          <a href="javascript:;" class="btn">确定</a>
-          <a href="javascript:;" class="btn">取消</a>
+  <transition name="slide">
+    <div class="modal" v-show="showModal">
+      <div class="mask"></div>
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <span>{{title}}</span>
+          <a href="javascript:;" class="icon-close" @click="closeDig"></a>
+        </div>
+        <div class="modal-body">
+          <slot name="body"></slot>
+        </div>
+        <div class="modal-footer">
+          <a
+            href="javascript:;"
+            class="btn"
+            v-if="btnType == 1"
+            @click="$emit('submit')"
+            >{{sureText}}</a
+          >
+          <a
+            href="javascript:;"
+            class="btn"
+            v-else-if="btnType==2"
+            @click="$emit('cancel')"
+            >取消</a
+          >
+          <div class="btn-group" v-else>
+            <a href="javascript:;" class="btn">{{sureText}}</a>
+            <a href="javascript:;" class="btn">取消</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
   </transition>
 </template>
 
 <script>
-export default {    
+export default {
   name: "modal",
   data() {
-      return {
-          show: true
-      }
+    return {
+      show: true,
+    };
   },
   props: {
     //  弹框类型: 小small 中middle 大large 表单form
@@ -43,7 +57,12 @@ export default {
       type: String,
       default: "确定",
     },
-    showModal:Boolean
+    showModal: Boolean,
+  },
+  methods: {
+    closeDig() {
+      this.$emit("update:showModal", false);
+    },
   },
 };
 </script>
